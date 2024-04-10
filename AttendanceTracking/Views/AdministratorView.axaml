@@ -1,0 +1,206 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:viewModels="clr-namespace:AttendanceTracking.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:AdministratorViewModel"
+             x:Class="AttendanceTracking.Views.AdministratorView">
+    <Design.DataContext>
+        <viewModels:AdministratorViewModel />
+    </Design.DataContext>
+    <controls:SukiSideMenu>
+
+        <controls:SukiSideMenu.HeaderContent>
+            <TextBlock Text="{Binding FullName}"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 20"
+                       FontSize="20" />
+        </controls:SukiSideMenu.HeaderContent>
+
+        <controls:SukiSideMenu.Items>
+
+            <controls:SukiSideMenuItem Header="Визиты">
+                <controls:SukiSideMenuItem.Icon>
+                    <Image Source="avares://AttendanceTracking/Icons/wired-flat-981-consultation.png" />
+                </controls:SukiSideMenuItem.Icon>
+                <controls:SukiSideMenuItem.PageContent>
+                    <DockPanel
+                        HorizontalAlignment="Stretch"
+                        LastChildFill="True">
+                        <StackPanel>
+                            <Border
+                                Width="400"
+                                Margin="0 0 0 20"
+                                CornerRadius="10">
+                                <StackPanel
+                                    DockPanel.Dock="Top"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <Button Classes="Primary"
+                                            Width="113"
+                                            x:Name="VisitAdd"
+                                            Content="Добавить"
+                                            Command="{Binding AddVisitToDB}" />
+                                    <TextBox
+                                        Name="VisitSearch"
+                                        Watermark="Поиск"
+                                        MinWidth="150"
+                                        TextChanged="VisitSearch_OnTextChanged" />
+                                    <ComboBox
+                                        Width="180"
+                                        Name="VisitFilter"
+                                        PlaceholderText="Фильтровать по..."
+                                        SelectionChanged="VisitFilter_OnSelectionChanged">
+                                        <ComboBoxItem>
+                                            <TextBlock>Все столбцы</TextBlock>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <TextBlock>Клиент</TextBlock>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <TextBlock>Сотрудник</TextBlock>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <TextBlock>Дата</TextBlock>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <TextBlock>Время</TextBlock>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <TextBlock>Причина</TextBlock>
+                                        </ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Border>
+                            <Panel>
+                                <Border
+                                    CornerRadius="10"
+                                    Width="950"
+                                    Height="800">
+                                    <DataGrid Name="VisitGrid"
+                                              Width="950"
+                                              IsReadOnly="True"
+                                              ItemsSource="{Binding Visit}"
+                                              SelectedItem="{Binding VisitSelectedItem}">
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Изменить"
+                                                          Name="HousingTypeEdit"
+                                                          Command="{Binding EditVisitInDB}" />
+                                                <MenuItem Header="Удалить"
+                                                          Name="HousingTypeDelete"
+                                                          Command="{Binding DeleteVisitFromDB}" />
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Client"
+                                                                Binding="{Binding ClientName}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Employee"
+                                                                Binding="{Binding EmployeeName}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Date"
+                                                                Binding="{Binding Date, StringFormat=yyyy-MM-dd}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Time"
+                                                                Binding="{Binding Time}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Purpose"
+                                                                Binding="{Binding Purpose}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
+                            </Panel>
+                        </StackPanel>
+                    </DockPanel>
+                </controls:SukiSideMenuItem.PageContent>
+            </controls:SukiSideMenuItem>
+            <controls:SukiSideMenuItem Header="Отчетность">
+                <controls:SukiSideMenuItem.Icon>
+                    <Image Source="avares://AttendanceTracking/Icons/wired-flat-56-document.png" />
+                </controls:SukiSideMenuItem.Icon>
+                <controls:SukiSideMenuItem.PageContent>
+                    <StackPanel>
+                        <DatePicker SelectedDate="{Binding StartDate}"/>
+                        <DatePicker SelectedDate="{Binding EndDate}"/>
+                        <Button Command="{Binding ReportGen}" 
+                                Content="Сгенерировать отчет"
+                                Width="200"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"/>
+                        <TextBlock x:Name="ReportTextBlock"
+                                   Text="{Binding Report}"/>
+                    </StackPanel>
+                </controls:SukiSideMenuItem.PageContent>
+            </controls:SukiSideMenuItem>
+            <controls:SukiSideMenuItem Header="Пользователи">
+                <controls:SukiSideMenuItem.Icon>
+                    <Image Source="avares://AttendanceTracking/Icons/wired-flat-21-avatar.png" />
+                </controls:SukiSideMenuItem.Icon>
+                <controls:SukiSideMenuItem.PageContent>
+                    <DockPanel
+                        HorizontalAlignment="Stretch"
+                        LastChildFill="True">
+                        <StackPanel>
+                            <Border
+                                Width="400"
+                                Margin="0 0 0 20"
+                                CornerRadius="10">
+                                <StackPanel
+                                    DockPanel.Dock="Top"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <Button Classes="Primary"
+                                            Width="113"
+                                            x:Name="EmployeeAdd"
+                                            Content="Добавить"
+                                            Command="{Binding AddEmployeeToDB}" />
+                                </StackPanel>
+                            </Border>
+                            <Panel>
+                                <Border
+                                    CornerRadius="10"
+                                    Width="950"
+                                    Height="800">
+                                    <DataGrid Name="EmployeeGrid"
+                                              Width="950"
+                                              IsReadOnly="True"
+                                              ItemsSource="{Binding Employee}"
+                                              SelectedItem="{Binding EmployeeSelectedItem}">
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Изменить"
+                                                          Name="EmployeeEdit"
+                                                          Command="{Binding EditEmployeeInDB}" />
+                                                <MenuItem Header="Удалить"
+                                                          Name="EmployeeDelete"
+                                                          Command="{Binding DeleteEmployeeFromDB}" />
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Employee name"
+                                                                Binding="{Binding EmployeeName}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Role"
+                                                                Binding="{Binding RoleName}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Login"
+                                                                Binding="{Binding Login}" />
+                                            <DataGridTextColumn Width="*"
+                                                                Header="Password"
+                                                                Binding="{Binding Password}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
+                            </Panel>
+                        </StackPanel>
+                    </DockPanel>
+                </controls:SukiSideMenuItem.PageContent>
+            </controls:SukiSideMenuItem>
+        </controls:SukiSideMenu.Items>
+    </controls:SukiSideMenu>
+</UserControl>

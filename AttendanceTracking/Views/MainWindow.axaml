@@ -1,0 +1,75 @@
+<controls:SukiWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:vm="using:AttendanceTracking.ViewModels"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+                     xmlns:avalonia="clr-namespace:Captcha.Avalonia;assembly=Captcha.Avalonia"
+                     xmlns:views="clr-namespace:AttendanceTracking.Views"
+                     xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+                     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                     x:Class="AttendanceTracking.Views.MainWindow"
+                     x:DataType="vm:MainWindowViewModel"
+                     Icon="/Assets/avalonia-logo.ico"
+                     Title="AttendanceTracking"
+                     WindowState="Maximized">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    <controls:SukiHost>
+        <dialogHostAvalonia:DialogHost IsOpen="{Binding LoginDialogOpen}">
+            <dialogHostAvalonia:DialogHost.DialogContent>
+                <StackPanel>
+                    <Panel Background="#FFEBE9"
+                           Height="50"
+                           Width="200"
+                           IsVisible="{Binding InvalidVisible}">
+                        <TextBlock x:Name="Invalid"
+                                   Text="Неверный логин или пароль"
+                                   VerticalAlignment="Center" />
+                    </Panel>
+                    <StackPanel Height="{Binding LoginDialogHeight}"
+                                Width="200"
+                                Spacing="10"
+                                Background="#F6F8FA">
+                        <TextBlock Text="Вход"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="Логин" />
+                        <TextBox x:Name="LoginTextBox"
+                                 Text="{Binding Login}" />
+                        <TextBlock Text="Пароль" />
+                        <TextBox x:Name="PasswordTextBox"
+                                 Text="{Binding Password}" />
+                        <StackPanel IsVisible="{Binding CaptchaVisible}"
+                                    Spacing="20">
+                            <avalonia:CaptchaAvalonia Width="200"
+                                                      Height="50"
+                                                      x:Name="CaptchaControl" />
+                            <TextBox x:Name="CaptchaTextBox"
+                                     Watermark="Введите капчу"
+                                     Text="{Binding CaptchaTextBoxText}" />
+                        </StackPanel>
+
+                        <Button Content="Войти"
+                                Command="{Binding LoginButton}"
+                                HorizontalAlignment="Center"
+                                Background="#1F883D"
+                                Foreground="#EDF6F0"
+                                Width="200"
+                                HorizontalContentAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </dialogHostAvalonia:DialogHost.DialogContent>
+            <Grid>
+                <views:AdministratorView Name="AdministratorView"
+                                         DataContext="{Binding AdministratorViewModel}"
+                                         IsVisible="{Binding AdministratorViewVisible}" />
+                <views:EmployeeView Name="AuthorizedCustomerView"
+                                    DataContext="{Binding EmployeeViewModel}"
+                                    IsVisible="False">
+                </views:EmployeeView>
+            </Grid>
+        </dialogHostAvalonia:DialogHost>
+    </controls:SukiHost>
+</controls:SukiWindow>

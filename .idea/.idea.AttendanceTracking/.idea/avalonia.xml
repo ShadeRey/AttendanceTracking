@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="AttendanceTracking/App.axaml" value="AttendanceTracking/AttendanceTracking.csproj" />
+        <entry key="AttendanceTracking/Views/AdministratorView.axaml" value="AttendanceTracking/AttendanceTracking.csproj" />
+        <entry key="AttendanceTracking/Views/AuthorizeView.axaml" value="AttendanceTracking/AttendanceTracking.csproj" />
+        <entry key="AttendanceTracking/Views/EmployeeView.axaml" value="AttendanceTracking/AttendanceTracking.csproj" />
+        <entry key="AttendanceTracking/Views/MainWindow.axaml" value="AttendanceTracking/AttendanceTracking.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
